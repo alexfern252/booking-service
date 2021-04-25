@@ -26,7 +26,7 @@ spring:
 
 fonoapi: 
    baseurl: https://fonoapi.freshpixl.com
-   getdevice: /v1/getdevice
+   getdevice: /v1/getdevice?token=
    token: 
      url: /token/generate
      

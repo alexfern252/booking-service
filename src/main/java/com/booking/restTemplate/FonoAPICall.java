@@ -5,6 +5,7 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,7 @@ import com.booking.exception.AppException;
 import com.booking.model.response.FonoAPIResponse;
 
 @Service
-public class APICall {
+public class FonoAPICall {
 
 	@Value("${fonoapi.baseurl}")
 	private String baseurl;
@@ -27,32 +28,32 @@ public class APICall {
 
 	private RestTemplate restTemplate;
 
-	public APICall(RestTemplateBuilder builder) {
+	public FonoAPICall(RestTemplateBuilder builder) {
 		this.restTemplate = builder.build();
 	}
 
-	public FonoAPIResponse callFonoAPI(String phoneName) throws AppException {
+	public FonoAPIResponse callFonoAPI(String deviceName) throws AppException {
 
 		ResponseEntity<FonoAPIResponse> responseEntity = null;
-		FonoAPIResponse resp = null;
 		try {
 
 			HttpHeaders headers = new HttpHeaders();
-			headers.add("TOKEN", getFonoApiToken());
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
 			HttpEntity<Object> entity = new HttpEntity<>(null, headers);
 			StringBuilder url = new StringBuilder();
-			url.append(baseurl).append(deviceendpoint);
+			url.append(baseurl).append(deviceendpoint).append(getFonoApiToken()).append("&device=").append(deviceName);
 			responseEntity = restTemplate.exchange(url.toString(), HttpMethod.GET, entity, FonoAPIResponse.class);
-
-			resp = responseEntity.getBody();
+			final HttpStatus statusCode = responseEntity.getStatusCode();
+			if (HttpStatus.OK.equals(statusCode) && responseEntity.getBody() != null) {
+				return responseEntity.getBody();
+			} else {
+				return null;
+			}
 
 		} catch (Exception e) {
 			throw new AppException("Error Calling FONO API ", e);
 		}
-
-		return resp;
 
 	}
 

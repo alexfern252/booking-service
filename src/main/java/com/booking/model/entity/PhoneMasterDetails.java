@@ -38,6 +38,7 @@ public class PhoneMasterDetails {
 	@Column(name = "IS_AVAILABLE")
 	private String isAvailable;
 	
+	
 	@OneToMany(mappedBy = "phoneMaster",cascade = CascadeType.ALL,fetch=FetchType.LAZY)
 	private List<BookingDetails> bookingDetails = new ArrayList<>();
 	

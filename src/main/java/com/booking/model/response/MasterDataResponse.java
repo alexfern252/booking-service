@@ -5,8 +5,6 @@ package com.booking.model.response;
 
 import java.util.List;
 
-import com.booking.model.entity.PhoneMasterDetails;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class MasterDataResponse {
 
-	List<PhoneMasterDetails> phoneList;
+	List<BookingResponse> phoneList;
 	
 	
 }

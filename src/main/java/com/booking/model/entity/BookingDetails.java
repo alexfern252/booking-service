@@ -26,21 +26,30 @@ import javax.persistence.Table;
 public class BookingDetails {
 
 	@Id
-	@GeneratedValue( strategy= GenerationType.AUTO ) 	
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "BOOKING_ID")
 	private Long bookingId;
-	
-	
-	@ManyToOne(fetch=FetchType.LAZY)
+
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "PHONE_ID")
 	private PhoneMasterDetails phoneMaster;
 
 	@Column(name = "LAST_BOOKED_BY")
 	private String bookedBy;
-	
+
 	@Column(name = "LAST_BOOKED_AT")
 	private Date bookedAt;
-	
 
+	public Long getBookingId() {
+		return bookingId;
+	}
+
+	public String getBookedBy() {
+		return bookedBy;
+	}
+
+	public Date getBookedAt() {
+		return bookedAt;
+	}
 
 }

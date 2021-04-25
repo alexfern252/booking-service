@@ -23,7 +23,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping(path = "/api/v1", produces = MediaType.APPLICATION_JSON_VALUE)
-public class BookingController {
+public class BookingController { 
 
 	@Autowired
 	private BookingService bookingService;

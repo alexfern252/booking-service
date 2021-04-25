@@ -16,8 +16,14 @@ import com.booking.model.response.FonoAPIResponse;
 @Service
 public class APICall {
 
-	@Value("${fonoapi.url}")
-	private String url;
+	@Value("${fonoapi.baseurl}")
+	private String baseurl;
+
+	@Value("${fonoapi.getdevice}")
+	private String deviceendpoint;
+
+	@Value("${fonoapi.token.url}")
+	private String tokenUrl;
 
 	private RestTemplate restTemplate;
 
@@ -32,15 +38,41 @@ public class APICall {
 		try {
 
 			HttpHeaders headers = new HttpHeaders();
+			headers.add("TOKEN", getFonoApiToken());
 			headers.setContentType(MediaType.APPLICATION_JSON);
 
 			HttpEntity<Object> entity = new HttpEntity<>(null, headers);
+			StringBuilder url = new StringBuilder();
+			url.append(baseurl).append(deviceendpoint);
 			responseEntity = restTemplate.exchange(url.toString(), HttpMethod.GET, entity, FonoAPIResponse.class);
 
 			resp = responseEntity.getBody();
 
 		} catch (Exception e) {
 			throw new AppException("Error Calling FONO API ", e);
+		}
+
+		return resp;
+
+	}
+
+	private String getFonoApiToken() throws AppException {
+		ResponseEntity<String> responseEntity = null;
+		String resp = null;
+		try {
+
+			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_JSON);
+
+			HttpEntity<Object> entity = new HttpEntity<>(null, headers);
+			StringBuilder tokenUrl = new StringBuilder();
+			tokenUrl.append(baseurl).append(tokenUrl);
+			responseEntity = restTemplate.exchange(tokenUrl.toString(), HttpMethod.GET, entity, String.class);
+
+			resp = responseEntity.getBody();
+
+		} catch (Exception e) {
+			throw new AppException("Error Calling Token API ", e);
 		}
 
 		return resp;

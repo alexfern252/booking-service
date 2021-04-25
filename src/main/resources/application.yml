@@ -25,7 +25,10 @@ spring:
     show-sql: true
 
 fonoapi: 
-   url: https://fonoapi.freshpixl.com/v1/
+   baseurl: https://fonoapi.freshpixl.com
+   getdevice: /v1/getdevice
+   token: 
+     url: /token/generate
      
       
     
